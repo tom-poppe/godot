@@ -1,7 +1,50 @@
+/* Document */
+body {
+    font-family: Nunito;
+    background-color: #f6f9ff;
+    color: #444444;
+}
+
+/* Header */
 img.logo {
     height: 30px;
 }
 
-body {
-    font-family: Nunito;
+div.logo
+{
+    width: 200px; /* Same a sidebar */
+}
+
+/* Navigation */
+aside {
+    position: fixed;
+    top: 48px;
+    left: 0;
+    bottom: 0;
+    width: 200px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
+    background-color: #ffffff;
+}
+
+aside > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+aside > ul > li {
+    font-size: 12pt;
+    font-weight: bold;
+    padding: 5px;
+}
+
+aside > ul > li.active {
+    background-color: #F6F9FF;
+}
+
+/* Content */
+main {
+    margin-left: 200px;
+    padding: 10px;
 }
