@@ -26,47 +26,51 @@
         {% endblock %}
     </head>
     <body>
-        <!-- Header -->
-        <header class="navbar navbar-light sticky-top bg-light p-1 shadow">
-            <div class="container-fluid">
-                <div class="d-flex">
-                    <div class="logo">                
-                        <a class="navbar-brand" href="/">
-                            <img class="logo me-2" src="/img/logo.png">
-                            Godot
+        {% block header %}
+            <!-- Header -->
+            <header class="navbar navbar-light sticky-top bg-light p-1 shadow">
+                <div class="container-fluid">
+                    <div class="d-flex">
+                        <div class="logo">                
+                            <a class="navbar-brand" href="/">
+                                <img class="logo me-2" src="/img/logo.png">
+                                Godot
+                            </a>
+                        </div>
+
+                        <form class="d-flex">
+                            <input class="form-control w-100" type="search" placeholder="Search">
+                        </form>
+                    </div>
+                
+                    <div class="navbar-nav">
+                        <div class="nav-item text-nowrap">
+                            <a class="nav-link" href="#">Sign out</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        {% endblock %}
+
+        {% block sidebar %}
+            <!-- Side nav bar -->
+            <aside>
+                <ul>
+                    <li class="active">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-house"></i>
+                            Dashboard
                         </a>
-                    </div>
-
-                    <form class="d-flex">
-                        <input class="form-control w-100" type="search" placeholder="Search">
-                    </form>
-                </div>
-            
-                <div class="navbar-nav">
-                    <div class="nav-item text-nowrap">
-                        <a class="nav-link" href="#">Sign out</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Side nav bar -->
-        <aside>
-            <ul>
-                <li class="active">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-house"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-gear"></i>
-                        Settings
-                    </a>
-                </li>
-            </ul>
-        </aside>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-gear"></i>
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        {% endblock %}
 
         <!-- Content -->
         <main>

@@ -48,3 +48,7 @@ main {
     margin-left: 200px;
     padding: 10px;
 }
+
+div.card {
+    padding: 10px;
+}
