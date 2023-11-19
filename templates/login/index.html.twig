@@ -23,11 +23,9 @@
                 </div>
             {% endif %}
 
-            {% if checkMail %}
-                <div class="alert alert-success" role="alert">
-                    A mail has been sent to verify your e-mail address. Check your SPAM folder and blabla...
-                </div>
-            {% endif %}
+            {% for flash in app.flashes('success') %}
+                <div class="alert alert-success" role="alert">{{ flash }}</div>
+            {% endfor %}
         </p>
 
         <form action="{{ path('app_login') }}" method="post">
