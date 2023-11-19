@@ -26,14 +26,16 @@
             {{ form_row(registrationForm.firstName) }}
             {{ form_row(registrationForm.lastName) }}
             {{ form_row(registrationForm.emailAddress) }}
-            {{ form_row(registrationForm.username) }}
             {{ form_row(registrationForm.plainPassword, {
                 label: 'Password'
             }) }}
 
-            {{ form_row(registrationForm.agreeTerms) }}
+            {{ form_row(registrationForm.agreeTerms, {
+                label: 'Agree to our terms'
+            }) }}
 
             <button type="submit" class="btn btn-primary">Register</button>
+            or <a href="{{ path("app_login") }}">Login here</a>
         {{ form_end(registrationForm) }}
     </div>
 {% endblock %}

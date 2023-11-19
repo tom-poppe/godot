@@ -32,7 +32,7 @@
             <div class="mb-3 row">
                 <label class="col-form-label col-sm-2 required" for="username">Email</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}">
+                    <input class="form-control" type="text" id="username" name="_username" value="{{ last_email }}">
                 </div>
             </div>
 
@@ -47,6 +47,7 @@
             <input type="hidden" name="_target_path" value="/account"> #}
             
             <button type="submit" class="btn btn-primary">login</button>
+            or <a href="{{ path("app_register") }}">Register here</a>
         </form>
     </div>
 {% endblock %}
