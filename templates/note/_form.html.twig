@@ -1,4 +1,106 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'action': action}) }}
+
+    <style>
+        textarea { height: 600px; }
+    </style>
+
+    <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button type="button" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+        {{ form_widget(form.content) }}
+    </div>
+
+    <div class="modal-footer d-flex justify-content-between">
+        <div>
+            <h2><i id="syncState" class="text-success bi bi-cloud-check"></i></h2>
+        </div>
+        <div>
+            <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
+            <button type="button" onclick="location.href='/note/{{ note.id }}/delete';" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+
 {{ form_end(form) }}
+
+
+
+
+<script type="text/javascript">
+
+    var icon = document.getElementById("syncState");
+    var form = document.getElementById("note_content").closest("form");
+
+    var autoSaveTimer = null;
+
+    form.addEventListener("input", prepareAutosave);
+    form.addEventListener("submit", cancelAutosave);
+
+    document.getElementById("base-modal-lg").addEventListener('shown.bs.modal', function (item) {
+        area = document.getElementById("note_content");
+        area.focus();
+        area.setSelectionRange(area.value.length,area.value.length);
+    });
+
+	function cancelAutosave()
+    {
+		clearTimeout(autoSaveTimer);
+	}
+
+	function prepareAutosave()
+    {
+        setSyncIcon();
+		cancelAutosave();
+		autoSaveTimer = setTimeout(commitAutoSave, 500);
+
+	}
+
+    async function commitAutoSave()
+    {
+        var formMethod = form.getAttribute("method");
+        var formAction = form.getAttribute("action");
+        var formData   = new FormData(form);
+
+        response = await fetch (
+           formAction, {
+                method: formMethod,
+                body: formData
+            }
+        ).catch(
+            (transportError) => {
+                console.warn( "Fetch API failed to send." );
+                console.error( transportError );
+            }
+        );
+
+        if (response.ok) {
+            setSavedIcon();            
+        }
+    }
+
+    function setSavedIcon()
+    {
+        if (icon.classList.contains("bi-arrow-repeat")) {
+            icon.classList.remove("bi-arrow-repeat");
+            icon.classList.remove("text-danger");
+        }
+
+        icon.classList.add("text-success");
+        icon.classList.add("bi-cloud-check");
+    }
+
+    function setSyncIcon()
+    {
+        if (icon.classList.contains("bi-cloud-check")) {
+            icon.classList.remove("bi-cloud-check");
+            icon.classList.add("text-success");
+        }
+
+        icon.classList.add("text-danger");
+        icon.classList.add("bi-arrow-repeat");
+    }
+
+</script>

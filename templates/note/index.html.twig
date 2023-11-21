@@ -19,7 +19,7 @@
                 <tr>
                     <th>Content</th>
                     <th>CreatedAt</th>
-                    <th>UpdateAt</th>
+                    <th>UpdatedAt</th>
                     <th>DeletedAt</th>
                     <th>ProcessedAt</th>
                     <th>actions</th>
@@ -30,7 +30,7 @@
                 <tr>
                     <td>{{ note.content }}</td>
                     <td>{{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ note.updateAt ? note.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ note.deletedAt ? note.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ note.processedAt ? note.processedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>

@@ -13,10 +13,6 @@ class NoteType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('createdAt')
-            ->add('updateAt')
-            ->add('deletedAt')
-            ->add('processedAt')
         ;
     }
 

@@ -14,11 +14,77 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/note')]
 class NoteController extends AbstractController
 {
+    #[Route('/new', name: 'app_note_new', methods: ['GET'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        # Create note and send id
+        $note = new Note();
+
+        $note->setContent("Note taken on " . date('d/m/Y') . "\n\n");
+        $note->setUser($this->getUser());
+        $note->setCreatedAt(new \DateTimeImmutable('now'));
+        $note->setUpdatedAt(new \DateTime('now'));
+
+        $entityManager->persist($note);
+        $entityManager->flush();
+
+        return new Response($note->getId());
+    }
+
+    #[Route('/{id}/edit', name: 'app_note_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Note $note, EntityManagerInterface $entityManager): Response
+    {
+        # Check: maybe in a voter?
+        $this->checkAccess($note->getUser());
+
+        $form = $this->createForm(NoteType::class, $note);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $note->setUpdatedAt(new \DateTime('now'));
+            $entityManager->flush();
+
+            return new Response("Note saved");
+        }
+
+        return $this->render('note/edit.html.twig', [
+            'note' => $note,
+            'form' => $form,
+        ]);
+    }
+
+    private function checkAccess($user): void
+    {
+        if ($user !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     #[Route('/', name: 'app_note_index', methods: ['GET'])]
     public function index(NoteRepository $noteRepository): Response
     {
         return $this->render('note/index.html.twig', [
-            'notes' => $noteRepository->findBy(["user" => $this->getUser()], ["updateAt" => "DESC"]),
+            'notes' => $noteRepository->findBy(["user" => $this->getUser()], ["updatedAt" => "DESC"]),
         ]);
     }
     
@@ -31,28 +97,7 @@ class NoteController extends AbstractController
 
 
 
-    #[Route('/new', name: 'app_note_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $note = new Note();
-        $form = $this->createForm(NoteType::class, $note);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $note->setUser($this->getUser());
-            
-            $entityManager->persist($note);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_note_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('note/new.html.twig', [
-            'note' => $note,
-            'form' => $form,
-        ]);
-    }
+    
 
     #[Route('/{id}', name: 'app_note_show', methods: ['GET'])]
     public function show(Note $note): Response
@@ -62,23 +107,7 @@ class NoteController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_note_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Note $note, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(NoteType::class, $note);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_note_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('note/edit.html.twig', [
-            'note' => $note,
-            'form' => $form,
-        ]);
-    }
 
     #[Route('/{id}', name: 'app_note_delete', methods: ['POST'])]
     public function delete(Request $request, Note $note, EntityManagerInterface $entityManager): Response
