@@ -16,8 +16,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class RegistrationController extends AbstractController
+class SecurityController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
 
@@ -51,7 +52,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address($_ENV["MAILER_FROM"], 'Godot'))
                     ->to($user->getEmailAddress())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('security/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
 
@@ -60,7 +61,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('security/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
@@ -93,5 +94,27 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_login');
+    }
+
+    #[Route('/login', name: 'app_login')]
+    public function index(AuthenticationUtils $authenticationUtils): Response
+    {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last login entered by the user
+        $lastEmail = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig', [
+            'last_email'    => $lastEmail,
+            'error'         => $error,
+        ]);
+    }
+
+    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
+    public function logout(): never
+    {
+        // controller can be blank: it will never be called!
+        throw new \Exception('Don\'t forget to activate logout in security.yaml');
     }
 }

@@ -1,0 +1,42 @@
+{% extends '_lib/base/auth.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <style>
+        form { min-width: 400px; }
+    </style>
+
+    <h1 class="h4 mb-4 font-weight-normal">Please sign in</h1>
+
+    <p>
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        {% for flash in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">{{ flash }}</div>
+        {% endfor %}
+    </p>
+    
+    <form action="{{ path('app_login') }}" method="post">
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-3 required" for="username">Email</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="email" id="username" name="_username" value="{{ last_email }}" autofocus required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-form-label col-sm-3 required" for="password">Password</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="password" id="password" name="_password" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign in</button>
+        or <a href="{{ path("app_register") }}">Register here</a>
+    </form>
+{% endblock %}

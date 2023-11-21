@@ -1,0 +1,9 @@
+{% extends '_lib/base/base.html.twig' %}
+
+{% block title %}Hello InboxController!{% endblock %}
+
+{% block body %}
+    {% for note in notes %}
+        {{ note.content }}
+    {% endfor %}
+{% endblock %}

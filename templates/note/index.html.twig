@@ -1,0 +1,51 @@
+{% extends '_lib/base/base.html.twig' %}
+
+{% block title %}Notes{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2>Notes</h2>
+
+        <div class="btn-toolbar">
+            <button id="from_note_new_note" type="button" class="btn btn-sm btn-outline-secondary">
+                Add note
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>CreatedAt</th>
+                    <th>UpdateAt</th>
+                    <th>DeletedAt</th>
+                    <th>ProcessedAt</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for note in notes %}
+                <tr>
+                    <td>{{ note.content }}</td>
+                    <td>{{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ note.updateAt ? note.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ note.deletedAt ? note.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ note.processedAt ? note.processedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_note_show', {'id': note.id}) }}">show</a>
+                        <a href="{{ path('app_note_edit', {'id': note.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_note_new') }}">Create new</a>
+    </div>
+{% endblock %}
