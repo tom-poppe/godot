@@ -22,7 +22,7 @@ class NoteController extends AbstractController
 
         $note->setContent("Note taken on " . date('d/m/Y') . "\n\n");
         $note->setUser($this->getUser());
-        $note->setCreatedAt(new \DateTimeImmutable('now'));
+        $note->setCreatedAt(new \DateTime('now'));
         $note->setUpdatedAt(new \DateTime('now'));
 
         $entityManager->persist($note);
@@ -51,6 +51,20 @@ class NoteController extends AbstractController
             'note' => $note,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}', name: 'app_note_delete', methods: ['GET'])]
+    public function delete(Request $request, Note $note, EntityManagerInterface $entityManager): Response
+    {
+        $this->checkAccess($note->getUser());
+
+        $note->setUpdatedAt(new \DateTime('now'));
+        $note->setDeletedAt(new \DateTime('now'));
+
+        $entityManager->remove($note);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_note_index', [], Response::HTTP_SEE_OTHER);
     }
 
     private function checkAccess($user): void
@@ -89,16 +103,6 @@ class NoteController extends AbstractController
     }
     
 
-
-
-
-
-
-
-
-
-    
-
     #[Route('/{id}', name: 'app_note_show', methods: ['GET'])]
     public function show(Note $note): Response
     {
@@ -109,14 +113,5 @@ class NoteController extends AbstractController
 
 
 
-    #[Route('/{id}', name: 'app_note_delete', methods: ['POST'])]
-    public function delete(Request $request, Note $note, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$note->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($note);
-            $entityManager->flush();
-        }
 
-        return $this->redirectToRoute('app_note_index', [], Response::HTTP_SEE_OTHER);
-    }
 }
