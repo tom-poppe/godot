@@ -3,6 +3,7 @@
 {% block title %}Hello InboxController!{% endblock %}
 
 {% block body %}
+    
     {% for note in notes %}
         {{ note.content }}
     {% endfor %}

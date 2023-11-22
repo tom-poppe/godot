@@ -42,3 +42,24 @@ main {
 div.card {
     padding: 10px;
 }
+
+/* Active Tables */
+.fixedTable {
+    overflow-y: auto; 
+    height: 350px;
+    background-color: #ffffff;
+}
+
+.fixedTable thead th { 
+    position: sticky;
+    top: 0; 
+    background-color: #ffffff;
+}
+
+.fixedTable td {
+    cursor: pointer;
+}
+
+.fixedTable tr.active {
+    background-color: #209cee;
+}

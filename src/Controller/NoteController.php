@@ -53,7 +53,7 @@ class NoteController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_note_delete', methods: ['GET'])]
+    #[Route('/{id}/delete', name: 'app_note_delete', methods: ['GET'])]
     public function delete(Request $request, Note $note, EntityManagerInterface $entityManager): Response
     {
         $this->checkAccess($note->getUser());
@@ -67,16 +67,22 @@ class NoteController extends AbstractController
         return $this->redirectToRoute('app_note_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}', name: 'app_note_show', methods: ['GET'])]
+    public function show(Note $note): Response
+    {
+        $this->checkAccess($note->getUser());
+
+        return $this->render('note/show.html.twig', [
+            'note' => $note,
+        ]);
+    }
+
     private function checkAccess($user): void
     {
         if ($user !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
     }
-
-
-
-
 
 
 
@@ -103,13 +109,7 @@ class NoteController extends AbstractController
     }
     
 
-    #[Route('/{id}', name: 'app_note_show', methods: ['GET'])]
-    public function show(Note $note): Response
-    {
-        return $this->render('note/show.html.twig', [
-            'note' => $note,
-        ]);
-    }
+
 
 
 

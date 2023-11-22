@@ -123,16 +123,54 @@ function setSyncStatusGui(icon, state)
     }
 }
 
-function removeClass(icon, className)
+function removeClass(element, className)
 {
-    if (icon.classList.contains(className)) {
-        icon.classList.remove(className);
+    if (element.classList.contains(className)) {
+        element.classList.remove(className);
     }
 }
 
-function addClass(icon, className)
+function addClass(element, className)
 {
-    if (!icon.classList.contains(className)) {
-        icon.classList.add(className);
+    if (!element.classList.contains(className)) {
+        element.classList.add(className);
     }
+}
+
+/*
+ *  Table functions
+ */
+
+function activateTable(tableName)
+{
+    document.querySelectorAll("#" + tableName + " tr").forEach(function (item) {
+        item.addEventListener('click', function(itemClicked) {
+            // Remove all active rows
+            document.querySelectorAll("#" + tableName + " tr.active").forEach(function (element) {
+                removeClass(element, "active");
+            });
+
+            // Set new active row
+            row = itemClicked.target.closest("tr");
+            addClass(row, "active");
+
+            // Load view
+            id = row.getAttribute("data-id")
+
+            loadNote(id);
+        });
+    });
+}
+
+function loadNote(id)
+{
+    console.log(id);
+
+    fetch("/note/" + id)
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(data) {
+            setInnerHTML(document.getElementById("noteView"), data);
+        });
 }
