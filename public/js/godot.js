@@ -2,19 +2,33 @@
  *  dynamically load modal
  */
 
-function loadModal(modal, url)
+async function loadModal(modalId, url)
 {
-    fetch(url)
-        .then(function(response) {
-            return response.text();
-        })
-        .then(function(data) {
-            setInnerHTML(document.getElementById(modal).querySelector(".modal-content"), data);
-        });
+    data = await loadUrl(url);
+    modal = getById(modalId).querySelector(".modal-content");
+    
+    setInnerHTML(modal, data);
 }
 
 /*
- *  Run dynamically loaded javascript
+    Make background ajax call
+*/
+
+async function loadUrl(url)
+{
+    return await fetch(url)
+        .then(response => response.text())
+        .then(data => { return data; })
+        .catch(error => { console.log(error); });
+}
+
+function getById(id)
+{
+    return document.getElementById(id);
+}
+
+/*
+ *  custome to run dynamically loaded javascript
  */
 
 function setInnerHTML(elm, html)
@@ -97,9 +111,9 @@ async function commitAutoSave(element, icon)
             body: formData
         }
     ).catch(
-        (transportError) => {
+        (error) => {
             console.warn("Failed to fetch form on " + formAction);
-            console.error(transportError);
+            console.error(error);
         }
     );
 
@@ -162,15 +176,8 @@ function activateTable(tableName)
     });
 }
 
-function loadNote(id)
+async function loadNote(id)
 {
-    console.log(id);
-
-    fetch("/note/" + id)
-        .then(function(response) {
-            return response.text();
-        })
-        .then(function(data) {
-            setInnerHTML(document.getElementById("noteView"), data);
-        });
+    body = await loadUrl("/note/" + id);
+    setInnerHTML(getById("noteView"), body);
 }

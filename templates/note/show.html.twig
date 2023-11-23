@@ -1,33 +1,17 @@
-<h1>Note</h1>
-
-<table class="table">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ note.id }}</td>
-        </tr>
-        <tr>
-            <th>Content</th>
-            <td>{{ note.content | nl2br }}</td>
-        </tr>
-        <tr>
-            <th>CreatedAt</th>
-            <td>{{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        <tr>
-            <th>UpdateAt</th>
-            <td>{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        <tr>
-            <th>DeletedAt</th>
-            <td>{{ note.deletedAt ? note.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        <tr>
-            <th>ProcessedAt</th>
-            <td>{{ note.processedAt ? note.processedAt|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col">
+        Add to action - Duplicate - Delete - ...
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        {{ note.content | nl2br }}
+    </div>
+    <div class="col">
+        {{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}<br />
+        {{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}
+    </div>
+</div>
 
 <a href="{{ path('app_note_index') }}">back to list</a>
 

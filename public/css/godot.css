@@ -45,7 +45,7 @@ div.card {
 
 /* Active Tables */
 .fixedTable {
-    overflow-y: auto; 
+    overflow: auto; 
     height: 350px;
     background-color: #ffffff;
 }
@@ -62,4 +62,8 @@ div.card {
 
 .fixedTable tr.active {
     background-color: #209cee;
+}
+
+.fixedTable tr.active td {
+    color: #ffffff;
 }
