@@ -84,34 +84,14 @@ class NoteController extends AbstractController
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     #[Route('/', name: 'app_note_index', methods: ['GET'])]
-    public function index(NoteRepository $noteRepository): Response
+    public function index(NoteRepository $noteRepository, Request $request): Response
     {
+        $noteId = $request->query->get('n');
+
         return $this->render('note/index.html.twig', [
             'notes' => $noteRepository->findBy(["user" => $this->getUser()], ["updatedAt" => "DESC"]),
+            'selected' => $noteId,
         ]);
     }
-    
-
-
-
-
-
-
 }

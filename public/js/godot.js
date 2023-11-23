@@ -6,7 +6,7 @@ async function loadModal(modalId, url)
 {
     data = await loadUrl(url);
     modal = getById(modalId).querySelector(".modal-content");
-    
+
     setInnerHTML(modal, data);
 }
 
@@ -157,7 +157,7 @@ function addClass(element, className)
 
 function activateTable(tableName)
 {
-    document.querySelectorAll("#" + tableName + " tr").forEach(function (item) {
+    document.querySelectorAll("#" + tableName + " tr.data-row").forEach(function (item) {
         item.addEventListener('click', function(itemClicked) {
             // Remove all active rows
             document.querySelectorAll("#" + tableName + " tr.active").forEach(function (element) {

@@ -41,6 +41,10 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             activateTable("noteTable");
+
+            {% if selected %}
+                document.querySelectorAll('[data-id="{{ selected }}"]')[0].click();
+            {% endif %}
         }, false);
 
     </script>

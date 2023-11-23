@@ -1,8 +1,15 @@
 <div class="row">
     <div class="col">
-        Add to action - Duplicate - Delete - ...
+        <div class="btn-group me-2">
+            <button id="btn-edit" type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#base-modal-quick-note">Edit</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
+        </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col">
         {{ note.content | nl2br }}
@@ -13,6 +20,14 @@
     </div>
 </div>
 
-<a href="{{ path('app_note_index') }}">back to list</a>
+<script>
 
-<a href="{{ path('app_note_edit', {'id': note.id}) }}">edit</a>
+    document.addEventListener('hidden.bs.modal', function () {
+        window.location.href = location.protocol + '//' + location.host + location.pathname + "?n={{ note.id }}";
+    }, false);
+
+    document.getElementById("btn-edit").addEventListener('click', function (item) {
+        loadModal("base-modal-quick-note", "{{ path('app_note_edit', {'id': note.id}) }}");
+    });
+
+</script>
