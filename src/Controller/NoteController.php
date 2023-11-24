@@ -77,13 +77,6 @@ class NoteController extends AbstractController
         ]);
     }
 
-    private function checkAccess($user): void
-    {
-        if ($user !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
-    }
-
     #[Route('/', name: 'app_note_index', methods: ['GET'])]
     public function index(NoteRepository $noteRepository, Request $request): Response
     {
@@ -93,5 +86,12 @@ class NoteController extends AbstractController
             'notes' => $noteRepository->findBy(["user" => $this->getUser()], ["updatedAt" => "DESC"]),
             'selected' => $noteId,
         ]);
+    }
+
+    private function checkAccess($user): void
+    {
+        if ($user !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
     }
 }

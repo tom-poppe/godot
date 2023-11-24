@@ -3,7 +3,7 @@
         <div class="btn-group me-2">
             <button id="btn-edit" type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#base-modal-quick-note">Edit</button>
             <button type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+            <button id="btn-delete" type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
             <button type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
             <button type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
         </div>
@@ -28,6 +28,10 @@
 
     document.getElementById("btn-edit").addEventListener('click', function (item) {
         loadModal("base-modal-quick-note", "{{ path('app_note_edit', {'id': note.id}) }}");
+    });
+
+    document.getElementById("btn-delete").addEventListener('click', function (item) {
+        console.log("delete");
     });
 
 </script>
