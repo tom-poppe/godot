@@ -84,4 +84,21 @@ class NoteController extends AbstractController
 
         return new Response("Note deleted");
     }
+
+    #[Route('/{id}/duplicate', name: 'app_note_duplicate', methods: ['GET'])]
+    #[IsGranted('access', 'note')]
+    public function duplicate(Request $request, Note $note, EntityManagerInterface $entityManager): Response
+    {
+        $newNote = new Note();
+
+        $newNote->setUser($this->getUser());
+        $newNote->setCreatedAt(new \DateTime('now'));
+        $newNote->setUpdatedAt(new \DateTime('now'));
+        $newNote->setContent("Note copied on " . date('d/m/Y') . "\n\n" . $note->getContent());
+
+        $entityManager->persist($newNote);
+        $entityManager->flush();
+
+        return new Response($newNote->getid());
+    }
 }

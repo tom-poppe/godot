@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col">
         <div class="btn-group me-2">
-            <button id="btn-edit" type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#base-modal-quick-note">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
-            <button id="btn-delete" type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
+            <button id="btn-edit"      data-link="{{ path("app_note_edit", {"id": note.id}) }}"      data-bs-toggle="modal" data-bs-target="#base-modal-quick-note" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            <button id="btn-duplicate" data-link="{{ path("app_note_duplicate", {"id": note.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
+            <button id="btn-delete"    data-link="{{ path("app_note_delete", {"id": note.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+            <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
+            <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
         </div>
     </div>
 </div>
@@ -23,15 +23,38 @@
 <script>
 
     document.addEventListener('hidden.bs.modal', function () {
-        window.location.href = location.protocol + '//' + location.host + location.pathname + "?n={{ note.id }}";
+        refresh({{ note.id }});
     }, false);
 
     document.getElementById("btn-edit").addEventListener('click', function (item) {
-        loadModal("base-modal-quick-note", "{{ path('app_note_edit', {'id': note.id}) }}");
+        modal = document.getElementById("base-modal-quick-note").querySelector(".modal-content");
+
+        loadUrl(item.target.getAttribute("data-link")).then(data => {
+            setInnerHtml(modal, data);
+        });
     });
 
     document.getElementById("btn-delete").addEventListener('click', function (item) {
-        console.log("delete");
+        loadUrl(item.target.getAttribute("data-link")).then(data => {
+            refresh();
+        });
     });
+
+    document.getElementById("btn-duplicate").addEventListener('click', function (item) {
+        loadUrl(item.target.getAttribute("data-link")).then(data => {
+            refresh(data);
+        });
+    });
+
+    function refresh(selected = null)
+    {
+        url = location.protocol + '//' + location.host + location.pathname;
+
+        if (selected != null) {
+            url += "?n=" + selected;
+        }
+
+        window.location.href = url;
+    }
 
 </script>

@@ -1,37 +1,19 @@
 /*
- *  dynamically load modal
- */
-
-async function loadModal(modalId, url)
-{
-    data = await loadUrl(url);
-    modal = getById(modalId).querySelector(".modal-content");
-
-    setInnerHTML(modal, data);
-}
-
-/*
     Make background ajax call
 */
 
-async function loadUrl(url)
+function loadUrl(url, callback)
 {
-    return await fetch(url)
+    return fetch(url)
         .then(response => response.text())
-        .then(data => { return data; })
         .catch(error => { console.log(error); });
-}
-
-function getById(id)
-{
-    return document.getElementById(id);
 }
 
 /*
  *  custome to run dynamically loaded javascript
  */
 
-function setInnerHTML(elm, html)
+function setInnerHtml(elm, html)
 {
     elm.innerHTML = html;
     
@@ -169,15 +151,16 @@ function activateTable(tableName)
             addClass(row, "active");
 
             // Load view
-            id = row.getAttribute("data-id")
+            url = row.getAttribute("data-show")
 
-            loadNote(id);
+            loadShowPanel(url);
         });
     });
 }
 
-async function loadNote(id)
+function loadShowPanel(url)
 {
-    body = await loadUrl("/note/" + id);
-    setInnerHTML(getById("noteView"), body);
+    loadUrl(url).then(data => {
+        setInnerHtml(document.getElementById("show-panel"), data);
+    });
 }

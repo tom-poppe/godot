@@ -7,12 +7,12 @@
 <script>
     // Quick note
     document.getElementById('base-quick-note').addEventListener('click', function (item) {
-        fetch("/note/new")
-            .then(function(response) {
-                return response.text();
-            })
-            .then(function(id) {
-                loadModal("base-modal-quick-note", "/note/" + id + "/edit");
+        modal = document.getElementById("base-modal-quick-note").querySelector(".modal-content");
+
+        loadUrl("/note/new").then(data => {
+            loadUrl("/note/" + data + "/edit").then(data => {
+                setInnerHtml(modal, data);
             });
+        });
     });
 </script>

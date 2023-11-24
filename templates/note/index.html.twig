@@ -7,7 +7,8 @@
         <h4 class="mb-0 pt-1">All notes</h4>
 
         <div class="btn-toolbar">
-            <button id="from_note_new_note" type="button" class="btn btn-sm btn-outline-secondary mb-2 me-2">Add note</a></button>
+
+            <button id="btn-new" data-bs-toggle="modal" data-bs-target="#base-modal-quick-note" type="button" class="btn btn-sm btn-outline-secondary mb-2 me-2">Add note</a></button>
             <button id="btn_sort_notes"     type="button" class="btn btn-sm btn-outline-secondary mb-2 gap-1 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-arrow-down-up"></i>
                 Sort
@@ -32,7 +33,7 @@
                 </thead>
                 <tbody>
                 {% for note in notes %}
-                    <tr class="data-row" data-id="{{ note.id }}"
+                    <tr class="data-row" data-id="{{ note.id }}" data-show="{{ path("app_note_show", {"id": note.id}) }}"
                         {% if note.deletedAt is null %}
                             style="text-decoration: strikethrough;";
                         {% endif %}
@@ -46,18 +47,31 @@
         </div>
     </div>
 
-    <div id="noteView" class="card mt-2">
+    <div id="show-panel" class="card mt-2">
     </div>
 
     <script>
 
         document.addEventListener('DOMContentLoaded', function () {
+            // Make table active
             activateTable("noteTable");
 
+            // Set selected if we have one
             {% if selected %}
                 document.querySelectorAll('[data-id="{{ selected }}"]')[0].click();
             {% endif %}
         }, false);
+
+        // Quick note
+        document.getElementById('btn-new').addEventListener('click', function (item) {
+        modal = document.getElementById("base-modal-quick-note").querySelector(".modal-content");
+
+        loadUrl("/note/new").then(data => {
+            loadUrl("/note/" + data + "/edit").then(data => {
+                setInnerHtml(modal, data);
+            });
+        });
+    });
 
     </script>
 
