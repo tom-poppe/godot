@@ -64,7 +64,7 @@ class NoteController extends AbstractController
         $entityManager->remove($note);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_note_index', [], Response::HTTP_SEE_OTHER);
+        return new Response("Note deleted");
     }
 
     #[Route('/{id}', name: 'app_note_show', methods: ['GET'])]

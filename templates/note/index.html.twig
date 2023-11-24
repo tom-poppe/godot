@@ -32,7 +32,11 @@
                 </thead>
                 <tbody>
                 {% for note in notes %}
-                    <tr class="data-row" data-id="{{ note.id }}">
+                    <tr class="data-row" data-id="{{ note.id }}"
+                        {% if note.deletedAt is null %}
+                            style="text-decoration: strikethrough;";
+                        {% endif %}
+                    >
                         <td class="text-truncate" style="max-width: 600px;">{{ note.content }}</td>
                         <td>{{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                     </tr>
