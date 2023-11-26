@@ -1,23 +1,14 @@
-<div class="row">
-    <div class="col">
-        <div class="btn-group me-2">
-            <button id="btn-edit"      data-link="{{ path("app_note_edit", {"id": note.id}) }}"      data-bs-toggle="modal" data-bs-target="#base-modal-quick-note" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            <button id="btn-duplicate" data-link="{{ path("app_note_duplicate", {"id": note.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
-            <button id="btn-delete"    data-link="{{ path("app_note_delete", {"id": note.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-            <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
-            <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
-        </div>
+<div class="card mt-3">
+    <div class="btn-group -2">
+        <button id="btn-edit"      data-link="{{ path("app_note_edit", {"id": note.id}) }}"      data-bs-toggle="modal" data-bs-target="#base-modal-quick-note" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+        <button id="btn-duplicate" data-link="{{ path("app_note_duplicate", {"id": note.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
+        <button id="btn-delete"    data-link="{{ path("app_note_delete", {"id": note.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
+        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
     </div>
-</div>
-
-<div class="row">
-    <div class="col">
-        {{ note.content | nl2br }}
-    </div>
-    <div class="col">
-        {{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}<br />
-        {{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}
-    </div>
+    {{ note.content | nl2br }}
+    {{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}<br />
+    {{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}        
 </div>
 
 <script>

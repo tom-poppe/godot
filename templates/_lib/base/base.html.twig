@@ -13,7 +13,7 @@
     </head>
     <body>
         <!-- Header -->
-        <header class="shadow p-2 sticky-top bg-light">
+        <header class="shadow p-2 fixed-top bg-light">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-4">
                     <a class="navbar-brand" href="{{ path("app_dashboard") }}">
@@ -36,7 +36,7 @@
         </header>
 
         <!-- Side nav bar -->
-        <aside>
+        <aside class="vh-100">
             <ul>
                 <li class="active">
                     <a href="{{ path("app_dashboard") }}" class="nav-link">
@@ -69,6 +69,11 @@
                 </li>
             </ul>
         </aside>
+
+        <!-- Content menu -->
+        <div class="content-menu">
+            {% block content_menu %}{% endblock %}
+        </div>
 
         <!-- Content -->
         <main>

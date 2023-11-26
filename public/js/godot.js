@@ -141,7 +141,7 @@ function activateTable(tableName)
 {
     document.querySelectorAll("#" + tableName + " tr.data-row").forEach(function (item) {
         item.addEventListener('click', function(itemClicked) {
-            // Remove all active rows
+            // Remove all active rows if any
             document.querySelectorAll("#" + tableName + " tr.active").forEach(function (element) {
                 removeClass(element, "active");
             });
@@ -150,6 +150,16 @@ function activateTable(tableName)
             row = itemClicked.target.closest("tr");
             addClass(row, "active");
 
+            // Shrink table
+            document.getElementById(tableName).closest("main > .top").style.height = "50%";
+
+            // Load row into view
+            row.scrollIntoView({
+                behavior: 'auto',
+                block: 'center',
+                inline: 'center'
+            });
+            
             // Load view
             url = row.getAttribute("data-show")
 
