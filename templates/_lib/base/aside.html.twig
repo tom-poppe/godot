@@ -11,6 +11,18 @@
             Inbox
         </a>
     </li>
+    <li {% if app.request.get("_route") starts with "app_project_" %}class="active"{% endif %}>
+        <a href="{{ path("app_inbox_index") }}" class="nav-link">
+            <i class="bi bi-diagram-3"></i>
+            Projects
+        </a>
+    </li>
+    <li {% if app.request.get("_route") starts with "app_action_" %}class="active"{% endif %}>
+        <a href="{{ path("app_inbox_index") }}" class="nav-link">
+            <i class="bi bi-check-square"></i>
+            Actions
+        </a>
+    </li>
 </ul>
 
 <hr class="my-3">
