@@ -1,11 +1,11 @@
 <ul>
-    <li class="active">
-        <a href="{{ path("app_dashboard") }}" class="nav-link">
+    <li {% if app.request.get("_route") starts with "app_dashboard_" %}class="active"{% endif %}>
+        <a href="{{ path("app_dashboard_index") }}" class="nav-link">
             <i class="bi bi-house"></i>
             Dashboard
         </a>
     </li>
-    <li>
+    <li {% if app.request.get("_route") starts with "app_inbox_" %}class="active"{% endif %}>
         <a href="{{ path("app_inbox_index") }}" class="nav-link">
             <i class="bi bi-inboxes"></i>
             Inbox
@@ -16,13 +16,13 @@
 <hr class="my-3">
 
 <ul>
-    <li>
+    <li {% if app.request.get("_route") starts with "app_settings_" %}class="active"{% endif %}>
         <a href="#" class="nav-link">
             <i class="bi bi-gear"></i>
             Settings
         </a>
     </li>
-    <li>
+    <li {% if app.request.get("_route") starts with "app_note_" %}class="active"{% endif %}>
         <a href="{{ path("app_note_index") }}" class="nav-link">
             <i class="bi bi-card-text"></i>
             Notes
