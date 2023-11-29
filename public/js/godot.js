@@ -150,9 +150,9 @@ function activateTable(tableName)
             row = itemClicked.target.closest("tr");
             addClass(row, "active");
 
-            // Shrink table
-            document.getElementById(tableName).closest("main > .top").style.height = "50%";
-
+            // Shrink table height
+            
+            
             // Load row into view
             row.scrollIntoView({
                 behavior: 'auto',
@@ -171,6 +171,11 @@ function activateTable(tableName)
 function loadShowPanel(url)
 {
     loadUrl(url).then(data => {
-        setInnerHtml(document.getElementById("show-panel"), data);
+        document.getElementById("card-top").style.height = "50%";
+        document.getElementById("card-bottom").style.display = "block";
+        
+        setInnerHtml(document.getElementById("content-bottom"), data);
+
+        document.getElementById("content-bottom").style.overflowY = "auto";
     });
 }
