@@ -31,12 +31,12 @@
                 </tr>
             </thead>
             <tbody>
-            {% for note in notes %}
-                <tr class="data-row" data-id="{{ note.id }}" data-show="{{ path("app_note_show", {"id": note.id}) }}">
-                    <td class="text-truncate" style="max-width: 600px;">{{ note.content }}</td>
-                    <td>{{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                </tr>
-            {% endfor %}
+                {% for note in notes %}
+                    <tr class="data-row" data-id="{{ note.id }}" data-show="{{ path("app_note_show", {"id": note.id}) }}">
+                        <td class="text-truncate" style="max-width: 600px;">{{ note.content }}</td>
+                        <td>{{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
@@ -50,7 +50,8 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             // Hide bottom until note is selected
-            // document.getElementById('card-bottom').style.display = "none";
+            document.getElementById('card-top').style.height = "100%";
+            document.getElementById('card-bottom').style.display = "none";
 
             // Make table active
             activateTable("noteTable");

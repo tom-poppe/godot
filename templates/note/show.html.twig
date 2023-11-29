@@ -1,18 +1,16 @@
-<div class="item">
-    <div class="item-menu sticky">
-        <div class="btn-group">
-            <button id="btn-edit"      data-link="{{ path("app_note_edit", {"id": note.id}) }}"      data-bs-toggle="modal" data-bs-target="#base-modal-quick-note" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            <button id="btn-duplicate" data-link="{{ path("app_note_duplicate", {"id": note.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
-            <button id="btn-delete"    data-link="{{ path("app_note_delete", {"id": note.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-            <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
-            <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
-        </div>
+<div class="item-menu">
+    <div class="btn-group">
+        <button id="btn-edit"      data-link="{{ path("app_note_edit", {"id": note.id}) }}"      data-bs-toggle="modal" data-bs-target="#base-modal-quick-note" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+        <button id="btn-duplicate" data-link="{{ path("app_note_duplicate", {"id": note.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
+        <button id="btn-delete"    data-link="{{ path("app_note_delete", {"id": note.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
+        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
     </div>
-    <div id="item-content" class="item-content">
-        {{ note.content | nl2br }}
-        {{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}<br />
-        {{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}        
-    </div>
+</div>
+<div id="item-content" class="item-content">
+    {{ note.content | nl2br }}
+    {{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}<br />
+    {{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}        
 </div>
 
 <script>

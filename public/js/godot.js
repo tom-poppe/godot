@@ -171,11 +171,9 @@ function activateTable(tableName)
 function loadShowPanel(url)
 {
     loadUrl(url).then(data => {
-        document.getElementById("card-top").style.height = "50%";
-        document.getElementById("card-bottom").style.display = "block";
+        document.getElementById('card-top').style.height = "50%";
+        document.getElementById('card-bottom').style.display = "block";
         
         setInnerHtml(document.getElementById("content-bottom"), data);
-
-        document.getElementById("content-bottom").style.overflowY = "auto";
     });
 }
