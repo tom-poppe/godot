@@ -1,6 +1,14 @@
 /*
-    Make background ajax call
+*   Some global vars
 */
+
+const SYNC_STATE_ERROR = { "bi-arrow-repeat": 0, "text-primary": 0, "bi-cloud-check": 0, "text-success": 0, "bi-exclamation-circle-fill": 1, "text-danger": 1 };
+const SYNC_STATE_OK    = { "bi-arrow-repeat": 0, "text-primary": 0, "bi-cloud-check": 1, "text-success": 1, "bi-exclamation-circle-fill": 0, "text-danger": 0 };
+const SYNC_STATE_SYNC  = { "bi-arrow-repeat": 1, "text-primary": 1, "bi-cloud-check": 0, "text-success": 0, "bi-exclamation-circle-fill": 0, "text-danger": 0 };
+
+/*
+ *   Make background ajax call
+ */
 
 function loadUrl(url, callback)
 {
@@ -75,47 +83,53 @@ function cancelAutosave()
 
 function prepareAutosave(element, icon)
 {
-    setSyncStatusGui(icon, false);
+    setSyncStatusGui(icon, SYNC_STATE_SYNC);
     cancelAutosave();
     
     autoSaveTimer = setTimeout(() => { commitAutoSave(element, icon) }, 500);
 }
 
-async function commitAutoSave(element, icon)
+function commitAutoSave(element, icon)
 {
     var formMethod = element.getAttribute("method");
     var formAction = element.getAttribute("action");
     var formData   = new FormData(element);
 
-    response = await fetch (
+    fetch (
        formAction, {
             method: formMethod,
             body: formData
+        })
+    .then(response => response.text())
+    .then(phpChecksum => { 
+        jsChecksum = md5(formData.values().next().value.replace(/\s+/g,''));
+        
+        try {
+            if (phpChecksum === jsChecksum) {
+                setSyncStatusGui(icon, SYNC_STATE_OK);
+            } else {
+                setSyncStatusGui(icon, SYNC_STATE_ERROR); 
+            }
+            
+        } catch(error) {
+            console.log(error);
+            setSyncStatusGui(icon, SYNC_STATE_ERROR); 
         }
-    ).catch(
-        (error) => {
-            console.warn("Failed to fetch form on " + formAction);
-            console.error(error);
-        }
-    );
-
-    if (response.ok) {
-        setSyncStatusGui(icon, true);       
-    }
+    })
+    .catch(error => {
+        console.log(error);
+        setSyncStatusGui(icon, SYNC_STATE_ERROR); 
+    });
 }
 
-function setSyncStatusGui(icon, state)
+function setSyncStatusGui(icon, classConfig)
 {
-    if (state) {
-        removeClass(icon, "bi-arrow-repeat");
-        removeClass(icon, "text-danger");
-        addClass(icon, "bi-cloud-check");
-        addClass(icon, "text-success");
-    } else {
-        removeClass(icon, "bi-cloud-check");
-        removeClass(icon, "text-success");
-        addClass(icon, "bi-arrow-repeat");
-        addClass(icon, "text-danger");
+    for (className in classConfig) {
+        if (classConfig[className]) {
+            addClass(icon, className);
+        } else {
+            removeClass(icon, className);        
+        }
     }
 }
 

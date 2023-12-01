@@ -63,7 +63,10 @@ class NoteController extends AbstractController
             $note->setUpdatedAt(new \DateTime('now'));
             $entityManager->flush();
 
-            return new Response("Note saved");
+            // Create checksum without whitespace
+            $checksum = md5(preg_replace('/\s+/', '', $note->getContent()));
+
+            return new Response($checksum);
         }
 
         return $this->render('note/edit.html.twig', [
