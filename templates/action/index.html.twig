@@ -1,0 +1,79 @@
+{% extends '_lib/base/base.html.twig' %}
+
+{% block title %}Actions{% endblock %}
+
+{% block content_menu %}
+    <div class="d-flex justify-content-between border-bottom">
+        <h4>All actions</h4>
+        <div>
+            <button id="btn-new" data-bs-toggle="modal" data-bs-target="#large-modal" type="button" class="btn btn-sm btn-outline-secondary mb-2 me-2">Add action</a></button>
+            <button id="btn_sort_actions"     type="button" class="btn btn-sm btn-outline-secondary mb-2 gap-1 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-arrow-down-up"></i>
+                Sort
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Content</a></li>
+                <li><a class="dropdown-item" href="#">Created</a></li>
+                <li><a class="dropdown-item" href="#">Updated</a></li>
+                <li><a class="dropdown-item" href="#">Deleted</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_top %}
+    <div class="fixedTable">
+        <table id="actionTable" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Is Next action</th>
+                    <th>Description</th>
+                    <th>CreatedAt</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for action in actions %}
+                    <tr class="data-row" data-id="{{ action.id }}" data-show="{{ path("app_action_show", {"id": action.id}) }}">
+                        <td>{{ action.isNextAction ? "<i class='bi bi-check'></i>" : ""}}</td>
+                        <td class="text-truncate" style="max-width: 600px;">{{ action.description }}</td>
+                        <td>{{ action.createdAt ? action.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block content_bottom %}
+{% endblock %}
+
+{% block script %}
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Hide bottom until entity is selected
+            document.getElementById('card-top').style.height = "100%";
+            document.getElementById('card-bottom').style.display = "none";
+
+            // Make table active
+            activateTable("actionTable");
+
+            // Set selected if we have one
+            {% if selected %}
+                document.querySelectorAll('[data-id="{{ selected }}"]')[0].click(); // TODO maybe better through session?
+            {% endif %}
+        }, false);
+
+        // new action
+        document.getElementById('btn-new').addEventListener('click', function (item) {
+        modal = document.getElementById("large-modal-content");
+
+        loadUrl("/action/new").then(data => {
+            loadUrl("/action/" + data + "/edit").then(data => {
+                setInnerHtml(modal, data);
+            });
+        });
+    });
+
+    </script>
+{% endblock %}

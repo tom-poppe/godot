@@ -1,0 +1,54 @@
+<div class="item-menu">
+    <div class="btn-group">
+        <button id="btn-edit"      data-link="{{ path("app_action_edit", {"id": action.id}) }}"      data-bs-toggle="modal" data-bs-target="#large-modal" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+        <button id="btn-duplicate" data-link="{{ path("app_action_duplicate", {"id": action.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
+        <button id="btn-delete"    data-link="{{ path("app_action_delete", {"id": action.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
+        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
+    </div>
+</div>
+<div id="item-content" class="item-content">
+    {{ action.description }}
+    {{ action.nextAction }}
+    {{ action.startDate ? action.startDate|date('Y-m-d H:i:s') : '' }}<br />
+    {{ action.dueDate ? action.dueDate|date('Y-m-d H:i:s') : '' }}        
+</div>
+
+<script>
+
+    document.addEventListener('hidden.bs.modal', function () {
+        refresh({{ action.id }});
+    }, false);
+
+    document.getElementById("btn-edit").addEventListener('click', function (item) {
+        modal = document.getElementById("large-modal-content");
+
+        loadUrl(item.target.getAttribute("data-link")).then(data => {
+            setInnerHtml(modal, data);
+        });
+    });
+
+    document.getElementById("btn-delete").addEventListener('click', function (item) {
+        loadUrl(item.target.getAttribute("data-link")).then(data => {
+            refresh();
+        });
+    });
+
+    document.getElementById("btn-duplicate").addEventListener('click', function (item) {
+        loadUrl(item.target.getAttribute("data-link")).then(data => {
+            refresh(data);
+        });
+    });
+
+    function refresh(selected = null)
+    {
+        url = location.protocol + '//' + location.host + location.pathname;
+
+        if (selected != null) {
+            url += "?n=" + selected;
+        }
+
+        window.location.href = url;
+    }
+
+</script>

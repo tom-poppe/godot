@@ -1,0 +1,24 @@
+{{ form_start(form, {'action': form_action}) }}
+
+    <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button type="button" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+        {{ form_widget(form.description) }}
+        {{ form_widget(form.startDate) }}
+        {{ form_widget(form.dueDate) }}
+        {{ form_widget(form.nextAction) }}
+    </div>
+
+    <div class="modal-footer d-flex justify-content-between">
+        <div></div>
+        <div>
+            <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
+            <button type="button" onclick="location.href='{{ path("app_action_delete", { "id": action.id }) }}';" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+
+{{ form_end(form) }}

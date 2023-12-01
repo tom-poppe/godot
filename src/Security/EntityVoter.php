@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\Action;
 use App\Entity\User;
 use App\Entity\Note;
 
@@ -18,7 +19,10 @@ class EntityVoter extends Voter
             return false;
         }
 
-        if (!$subject instanceof Note) {
+        if (
+            !$subject instanceof Note &&
+            !$subject instanceof Action
+        ) {
             return false;
         }
 
