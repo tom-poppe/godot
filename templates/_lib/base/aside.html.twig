@@ -1,43 +1,13 @@
 <ul>
-    <li {% if app.request.get("_route") starts with "app_dashboard_" %}class="active"{% endif %}>
-        <a href="{{ path("app_dashboard_index") }}" class="nav-link">
-            <i class="bi bi-house"></i>
-            Dashboard
-        </a>
-    </li>
-    <li {% if app.request.get("_route") starts with "app_inbox_" %}class="active"{% endif %}>
-        <a href="{{ path("app_inbox_index") }}" class="nav-link">
-            <i class="bi bi-inboxes"></i>
-            Inbox
-        </a>
-    </li>
-    <li {% if app.request.get("_route") starts with "app_project_" %}class="active"{% endif %}>
-        <a href="{{ path("app_inbox_index") }}" class="nav-link">
-            <i class="bi bi-diagram-3"></i>
-            Projects
-        </a>
-    </li>
-    <li {% if app.request.get("_route") starts with "app_action_" %}class="active"{% endif %}>
-        <a href="{{ path("app_inbox_index") }}" class="nav-link">
-            <i class="bi bi-check-square"></i>
-            Actions
-        </a>
-    </li>
+    {{ include("_lib/base/_nav_item.html.twig", {'title': 'Dashboard', 'icon': 'house', 'route': path("app_dashboard_index"), 'regex': 'app_dashboard_' }) }}
+    {{ include("_lib/base/_nav_item.html.twig", {'title': 'Inbox', 'icon': 'inboxes', 'route': path("app_inbox_index"), 'regex': 'app_inbox_' }) }}
+    {{ include("_lib/base/_nav_item.html.twig", {'title': 'Projects', 'icon': 'diagram-3', 'route': path("app_inbox_index"), 'regex': 'app_project_' }) }}
+    {{ include("_lib/base/_nav_item.html.twig", {'title': 'Actions', 'icon': 'check-square', 'route': path("app_action_index"), 'regex': 'app_action_' }) }}
 </ul>
 
 <hr class="my-3">
 
 <ul>
-    <li {% if app.request.get("_route") starts with "app_settings_" %}class="active"{% endif %}>
-        <a href="#" class="nav-link">
-            <i class="bi bi-gear"></i>
-            Settings
-        </a>
-    </li>
-    <li {% if app.request.get("_route") starts with "app_note_" %}class="active"{% endif %}>
-        <a href="{{ path("app_note_index") }}" class="nav-link">
-            <i class="bi bi-card-text"></i>
-            Notes
-        </a>
-    </li>
+    {{ include("_lib/base/_nav_item.html.twig", {'title': 'Settings', 'icon': 'gear', 'route': path("app_action_index"), 'regex': 'app_settings_' }) }}
+    {{ include("_lib/base/_nav_item.html.twig", {'title': 'Notes', 'icon': 'card-text', 'route': path("app_note_index"), 'regex': 'app_note_' }) }}
 </ul>

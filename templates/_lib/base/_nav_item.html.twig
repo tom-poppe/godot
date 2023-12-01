@@ -1,0 +1,6 @@
+<li {% if app.request.get("_route") starts with regex %}class="active"{% endif %}>
+    <a href="{{ route }}" class="nav-link">
+        <i class="bi bi-{{ icon }}"></i>
+        {{ title }}
+    </a>
+</li>
