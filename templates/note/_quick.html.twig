@@ -1,13 +1,7 @@
-<div class="modal fade" id="base-modal-quick-note" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content"></div>
-    </div>
-</div>
-
 <script>
     // Quick note
-    document.getElementById('base-quick-note').addEventListener('click', function (item) {
-        modal = document.getElementById("base-modal-quick-note").querySelector(".modal-content");
+    document.getElementById('quick-note-link').addEventListener('click', function (item) {
+        modal = document.getElementById("large-modal-content");
 
         loadUrl("/note/new").then(data => {
             loadUrl("/note/" + data + "/edit").then(data => {
