@@ -3,6 +3,13 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
+    <script>
+        // Make sure to open in full screen
+        if (!location.href.endsWith("{{ path('app_login') }}")) {
+            location.href = "{{ path('app_login') }}";
+        }
+    </script>
+
     <style>
         form { min-width: 400px; }
     </style>
