@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Note;
 use App\Form\NoteType;
+use App\Form\ActionType;
 use App\Repository\NoteRepository;
+use App\Repository\ActionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,5 +105,32 @@ class NoteController extends AbstractController
         $entityManager->flush();
 
         return new Response($newNote->getid());
+    }
+
+    #[Route('/{id}/add-to-action', name: 'app_note_add_to_action', methods: ['GET', 'POST'])]
+    #[IsGranted('access', 'note')]
+    public function addToAction(Note $note, Request $request, ActionRepository $actionRepository, EntityManagerInterface $entityManager): Response
+    {
+     
+        
+
+
+        
+        if ($request->query->has('actionId')) {
+            $action = $actionRepository->find($request->query->get('actionId'));
+
+            $note->setAction($action);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_note_index', ["n" => $note->getId()]);   
+        }
+
+        $form = $this->createForm(ActionType::class);
+
+        return $this->render('note/_add_to_action.html.twig', [
+            'form' => $form,
+            'note' => $note,
+        ]);
     }
 }

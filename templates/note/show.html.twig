@@ -1,16 +1,28 @@
 <div class="item-menu">
-    <div class="btn-group">
-        <button id="btn-edit"      data-link="{{ path("app_note_edit", {"id": note.id}) }}"      data-bs-toggle="modal" data-bs-target="#large-modal" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-        <button id="btn-duplicate" data-link="{{ path("app_note_duplicate", {"id": note.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
-        <button id="btn-delete"    data-link="{{ path("app_note_delete", {"id": note.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
-        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
+    <div class="item-menu">
+        <div class="btn-group">
+            <button id="btn-edit"      data-link="{{ path("app_note_edit", {"id": note.id}) }}"      data-bs-toggle="modal" data-bs-target="#large-modal" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            <button id="btn-duplicate" data-link="{{ path("app_note_duplicate", {"id": note.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
+            <button id="btn-delete"    data-link="{{ path("app_note_delete", {"id": note.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+            <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
+            <button id="btn-action"    data-link="{{ path("app_note_add_to_action", {"id": note.id}) }}"  data-bs-toggle="modal" data-bs-target="#extra-large-modal"  type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
+        </div>
     </div>
 </div>
-<div id="item-content" class="item-content">
-    {{ note.content | nl2br }}
-    {{ note.createdAt ? note.createdAt|date('Y-m-d H:i:s') : '' }}<br />
-    {{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}        
+
+<div class="item-content d-flex">
+    <div class="item-content-left">
+        {{ note.content | nl2br }}
+    </div>
+    
+    <div class="item-content-right">
+        Taken on {{ note.createdAt ? note.createdAt|date('d/m/Y') : '' }}<br />
+        Last update {{ note.updatedAt ? note.updatedAt|date('d/m/Y') : '' }}<br /><br />
+
+        {% if note.action is not null %}
+            Action: {{ note.action.description }}
+        {% endif %}
+    </div>
 </div>
 
 <script>
@@ -36,6 +48,14 @@
     document.getElementById("btn-duplicate").addEventListener('click', function (item) {
         loadUrl(item.target.getAttribute("data-link")).then(data => {
             refresh(data);
+        });
+    });
+
+    document.getElementById("btn-action").addEventListener('click', function (item) {
+        modal = document.getElementById("extra-large-modal-content");
+
+        loadUrl(item.target.getAttribute("data-link")).then(data => {
+            setInnerHtml(modal, data);
         });
     });
 

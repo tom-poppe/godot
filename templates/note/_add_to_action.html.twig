@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <h5 class="modal-title">Add note to action</h5>
+    <button type="button" data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-5">
+            <p>
+                <input id="searchbox" type="text" placeholder="search" class="w-100 form-control">
+            </p>
+
+            <ul id="searchbox_results"></ul>
+        </div>
+        <div class="col-7">
+            {{ form_start(form, {'action': path("app_note_add_to_action", {id: note.id})}) }}
+
+            {{ form_row(form.description) }}
+            {{ form_row(form.startDate) }}
+            {{ form_row(form.dueDate) }}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer d-flex justify-content-between">
+    <div></div>
+    <div>
+        <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+</div>
+
+<script>
+    searchbox = document.getElementById('searchbox');
+    searchbox_results = document.getElementById('searchbox_results');
+
+    // Element, SearchUrl, Callback
+    initAutoSearch(searchbox, "{{ path("app_action_search") }}", searchCallback);
+
+    // Trigger first search
+    searchbox.dispatchEvent(new Event('input', { bubbles: true }));
+
+    function searchCallback(data)
+    {
+        setInnerHtml(searchbox_results, data);
+        reloadListItems();
+    }
+
+    function reloadListItems()
+    {
+        document.querySelectorAll("#searchbox_results li.data-row").forEach(function (item) {
+            item.addEventListener('click', function(itemClicked) {
+                actionId = itemClicked.target.getAttribute("data-id");
+                location.href = "{{ path("app_note_add_to_action", { id: note.id }) }}?actionId=" + actionId;
+            });
+        });
+    }
+    
+</script>

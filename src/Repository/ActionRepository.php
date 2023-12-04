@@ -21,6 +21,19 @@ class ActionRepository extends ServiceEntityRepository
         parent::__construct($registry, Action::class);
     }
 
+    public function searchByDescription($user, $description, $maxResults = 20)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.description LIKE :description')
+            ->andWhere('a.user = :user')
+            ->setParameter('description', "%$description%")
+            ->setParameter('user', $user)
+            ->orderBy('a.updatedAt', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Action[] Returns an array of Action objects
 //     */

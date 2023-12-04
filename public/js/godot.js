@@ -65,6 +65,36 @@ function goToEnd(area)
 }
 
 /*
+ *  Functions on autosearch
+ */
+
+var autoSearchTimer = null;
+
+function initAutoSearch(element, searchUrl, searchCallback)
+{
+    element.addEventListener("input", () => { prepareAutoSearch(element, searchUrl, searchCallback) });
+}
+
+function cancelAutoSearch()
+{
+    clearTimeout(autoSearchTimer);
+}
+
+function prepareAutoSearch(element, searchUrl, searchCallback)
+{
+    cancelAutoSearch();
+
+    autoSearchTimer = setTimeout(() => { commitAutoSearch(element, searchUrl, searchCallback) }, 250);
+}
+
+function commitAutoSearch(element, searchUrl, searchCallback)
+{
+    fetch (searchUrl + "?q=" + element.value)
+     .then(response => response.text())
+     .then(data => searchCallback(data));
+}
+
+/*
  *  Functions on autosave
  */
 

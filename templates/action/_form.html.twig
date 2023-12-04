@@ -6,17 +6,20 @@
     </div>
 
     <div class="modal-body">
-        {{ form_widget(form.description) }}
-        {{ form_widget(form.startDate) }}
-        {{ form_widget(form.dueDate) }}
-        {{ form_widget(form.nextAction) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.startDate) }}
+        {{ form_row(form.dueDate) }}
+        {{ form_row(form.nextAction) }}
     </div>
 
     <div class="modal-footer d-flex justify-content-between">
         <div></div>
         <div>
             <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
-            <button type="button" onclick="location.href='{{ path("app_action_delete", { "id": action.id }) }}';" class="btn btn-danger">Delete</button>
+            {% if app.request.get("_route") ends with "_edit" %}
+                <button type="button" onclick="location.href='{{ path("app_action_delete", { "id": action.id }) }}';" class="btn btn-danger">Delete</button>
+            {% endif %}
+            
             <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
     </div>

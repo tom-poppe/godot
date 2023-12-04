@@ -69,9 +69,7 @@
         modal = document.getElementById("large-modal-content");
 
         loadUrl("/action/new").then(data => {
-            loadUrl("/action/" + data + "/edit").then(data => {
-                setInnerHtml(modal, data);
-            });
+            setInnerHtml(modal, data);
         });
     });
 

@@ -26,22 +26,30 @@ class ActionController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_action_new', methods: ['GET'])]
+    #[Route('/new', name: 'app_action_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        # Create action and send id
         $action = new Action();
+        
+        $form = $this->createForm(ActionType::class, $action);
+        $form->handleRequest($request);
 
-        $action->setDescription('New action');
-        $action->setNextAction(false);
-        $action->setUser($this->getUser());
-        $action->setCreatedAt(new \DateTime('now'));
-        $action->setUpdatedAt(new \DateTime('now'));
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        $entityManager->persist($action);
-        $entityManager->flush();
+            $action->setUser($this->getUser());
+            $action->setCreatedAt(new \DateTime('now'));
+            $action->setUpdatedAt(new \DateTime('now'));
 
-        return new Response($action->getId());
+            $entityManager->persist($action);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_action_index', ["n" => $action->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('action/new.html.twig', [
+            'action' => $action,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{id}/show', name: 'app_action_show', methods: ['GET'])]
@@ -101,5 +109,15 @@ class ActionController extends AbstractController
         $entityManager->flush();
 
         return new Response($newAction->getid());
+    }
+
+    #[Route('/search', name: 'app_action_search', methods: ['GET'])]
+    public function search(Request $request, ActionRepository $actionRepository): Response
+    {
+        $q = $request->get("q");
+
+        return $this->render('action/_search.html.twig', [
+            'actions' => $actionRepository->searchByDescription($this->getUser(), $q),
+        ]);
     }
 }

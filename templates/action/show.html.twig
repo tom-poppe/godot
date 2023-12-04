@@ -1,17 +1,32 @@
 <div class="item-menu">
-    <div class="btn-group">
-        <button id="btn-edit"      data-link="{{ path("app_action_edit", {"id": action.id}) }}"      data-bs-toggle="modal" data-bs-target="#large-modal" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-        <button id="btn-duplicate" data-link="{{ path("app_action_duplicate", {"id": action.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
-        <button id="btn-delete"    data-link="{{ path("app_action_delete", {"id": action.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
-        <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to action</button>
+    <div class="item-menu">
+        <div class="btn-group">
+            <button id="btn-edit"      data-link="{{ path("app_action_edit", {"id": action.id}) }}"      data-bs-toggle="modal" data-bs-target="#large-modal" type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            <button id="btn-duplicate" data-link="{{ path("app_action_duplicate", {"id": action.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Duplicate</button>
+            <button id="btn-delete"    data-link="{{ path("app_action_delete", {"id": action.id}) }}"    type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+            <button                    type="button" class="btn btn-sm btn-outline-secondary">Add to project</button>
+        </div>
     </div>
 </div>
-<div id="item-content" class="item-content">
-    {{ action.description }}
-    {{ action.nextAction }}
-    {{ action.startDate ? action.startDate|date('Y-m-d H:i:s') : '' }}<br />
-    {{ action.dueDate ? action.dueDate|date('Y-m-d H:i:s') : '' }}        
+
+<div class="item-content d-flex">
+    <div class="item-content-left">
+        Notes:
+        {% for note in action.notes %}
+            {{ note.content }}
+        {% endfor %}
+
+        {{ action.description }}
+    </div>
+    
+    <div class="item-content-right">
+        Taken on {{ action.createdAt ? action.createdAt|date('d/m/Y') : '' }}<br />
+        Last update {{ action.updatedAt ? action.updatedAt|date('d/m/Y') : '' }}<br /><br />
+
+        Starts {{ action.startDate ? action.startDate|date('Y-m-d H:i:s') : '' }}<br />
+        Ends {{ action.dueDate ? action.dueDate|date('Y-m-d H:i:s') : '' }}<br /><br />
+        Is next action {{ action.nextAction }}
+    </div>
 </div>
 
 <script>

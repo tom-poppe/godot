@@ -113,21 +113,30 @@ div.card-bottom {
 div.content-bottom {
     width: 100%;
     height: 100%;   
+}
+
+/* Item stuff in bottom div */
+div.item-menu {
+    width: 100%;
+    height: 40px;
+}
+
+div.item-content {
+    width: 100%;
+    height: calc(100% - 40px);
 
     overflow-y: auto;
 }
 
-div.item-menu {
-    position: fixed;
-    background-color: #ffffff;
+div.item-content-left {
+    width: calc(100% - 400px);
+    padding: 0 10px 0 0;
 }
 
-div.item-content {
-    margin-top: 50px;
-}
-
-div.btn-group {
-    margin-bottom: 10px;
+div.item-content-right {
+    width: 400px;
+    padding: 0 10px 0 10px;
+    color: #a9a9a9;
 }
 
 /* Menu lists */
