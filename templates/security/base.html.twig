@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% include "_lib/base/base_head.html.twig" %}
+        
+        <title>Godot - {% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+            <div class="card mx-auto mt-5" style="width: 40rem">
+                <div class="card-body">
+                        {{ include("_lib/base/_logo.html.twig") }}
+
+                        <div class="mt-3">
+                            {% block body %}{% endblock %}
+                        </div>
+                </div>
+            </div>
+    </body>
+</html>

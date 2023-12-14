@@ -1,49 +1,51 @@
-{% extends '_lib/base/auth.html.twig' %}
+{% extends 'security/base.html.twig' %}
 
 {% block title %}Login{% endblock %}
 
 {% block body %}
     <script>
-        // Make sure to open in full screen
+        // Make sure to open in full screen (on ajax loading)
         if (!location.href.endsWith("{{ path('app_login') }}")) {
             location.href = "{{ path('app_login') }}";
         }
     </script>
 
-    <style>
-        form { min-width: 400px; }
-    </style>
+    <h4>Please sign in</h4>
 
-    <h1 class="h4 mb-4 font-weight-normal">Please sign in</h1>
-
-    <p>
-        {% if error %}
+    {% if error %}
+        <p>
             <div class="alert alert-danger" role="alert">
                 {{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
-        {% endif %}
+        </p>
+    {% endif %}
 
-        {% for flash in app.flashes('success') %}
-            <div class="alert alert-success" role="alert">{{ flash }}</div>
-        {% endfor %}
+    {% for flash in app.flashes('success') %}
+        <p>
+            <div class="alert alert-success" role="alert">
+                {{ flash }}
+            </div>
+        </p>
+    {% endfor %}
+
+    <p>
+        <form action="{{ path('app_login') }}" method="post">
+            <div class="mb-3 row">
+                <label class="col-form-label col-sm-2 required" for="username">Email</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="email" id="username" name="_username" value="{{ last_email }}" autofocus required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-form-label col-sm-2 required" for="password">Password</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="password" id="password" name="_password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign in</button>
+            or <a href="{{ path("app_register") }}">Register here</a>
+        </form>
     </p>
-    
-    <form action="{{ path('app_login') }}" method="post">
-        <div class="mb-3 row">
-            <label class="col-form-label col-sm-3 required" for="username">Email</label>
-            <div class="col-sm-9">
-                <input class="form-control" type="email" id="username" name="_username" value="{{ last_email }}" autofocus required>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label class="col-form-label col-sm-3 required" for="password">Password</label>
-            <div class="col-sm-9">
-                <input class="form-control" type="password" id="password" name="_password" required>
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Sign in</button>
-        or <a href="{{ path("app_register") }}">Register here</a>
-    </form>
 {% endblock %}

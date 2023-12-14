@@ -1,37 +1,44 @@
-{% extends '_lib/base/auth.html.twig' %}
+{% extends 'security/base.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <style>
-        form { min-width: 600px; }
-    </style>
 
-    <h1 class="h4 mb-4 font-weight-normal">Please register</h1>
+    <h4>Please register</h4>
+    
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <p>
+            <div class="alert alert-danger" role="alert">
+                {{ flash_error }}
+            </div>
+        </p>
+    {% endfor %}
+
+    {% if form_errors(registrationForm) %}
+        <p>
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(registrationForm) }}
+            </div>
+        </p>
+    {% endif %}
 
     <p>
-        {% for flash_error in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-        {% endfor %}
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.firstName) }}
+            {{ form_row(registrationForm.lastName) }}
+            {{ form_row(registrationForm.emailAddress) }}
+
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'
+            }) }}
+
+            {{ form_row(registrationForm.agreeTerms, {
+                label: 'Agree to our terms'
+            }) }}
+
+            <button type="submit" class="btn btn-primary">Register</button>
+            or <a href="{{ path("app_login") }}">Sign in here</a>
+
+        {{ form_end(registrationForm) }}
     </p>
-    
-    {{ form_errors(registrationForm) }}
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
-        {{ form_row(registrationForm.emailAddress) }}
-
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-
-        {{ form_row(registrationForm.agreeTerms, {
-            label: 'Agree to our terms'
-        }) }}
-
-        <button type="submit" class="btn btn-primary">Register</button>
-        or <a href="{{ path("app_login") }}">Sign in here</a>
-
-    {{ form_end(registrationForm) }}
 {% endblock %}

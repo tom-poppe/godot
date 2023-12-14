@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        {% include "_lib/base/head.html.twig" %}
+        {% include "_lib/base/base_head.html.twig" %}
 
         <title>Godot - {% block title %}{% endblock %}</title>
 
@@ -14,10 +14,10 @@
     <body>
         <!-- Header -->
         <header>
-            {{ include("_lib/base/header.html.twig") }}
+            {{ include("_lib/base/base_topbar.html.twig") }}
         </header>
         <aside>
-            {{ include("_lib/base/aside.html.twig") }}
+            {{ include("_lib/base/base_sidebar.html.twig") }}
         </aside>
         <main>
             <div class="content-menu">
@@ -39,20 +39,7 @@
             </div>
         </main>
 
-        <!-- Large modal -->
-        <div class="modal fade" id="large-modal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content" id="large-modal-content"></div>
-            </div>
-        </div>
-
-        <!-- Extra large modal -->
-        <div class="modal fade" id="extra-large-modal" tabindex="-1">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content" id="extra-large-modal-content"></div>
-            </div>
-        </div>
-
+        {{ include("_lib/base/_modals.html.twig") }}
         {{ include("note/_quick.html.twig") }}
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>

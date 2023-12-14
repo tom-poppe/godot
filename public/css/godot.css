@@ -1,3 +1,8 @@
+/*
+ *  GLOBAL LAYOUT ON MENU'S AND MAIN VIEWPORT
+ */
+
+
 /* Document */
 body {
     font-family: Nunito;
@@ -42,7 +47,7 @@ aside {
     
 }
 
-/* Main (fixed) content windows */
+/* Main (fixed) content windows, so complete viewport */
 main {
     position: fixed;
     top: 0;
@@ -56,6 +61,27 @@ main {
     z-index: 80;
 }
 
+/*
+ *  GOING INTO CONTENT
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* Top bar in menu for sorting/filtering etc */
 div.content-menu {
     position:fixed;
     top: 0;
@@ -69,18 +95,23 @@ div.content-menu {
     z-index: 70;
 }
 
+/* Complete viewport on content */
 div.content {
     position:fixed;
     top: 0;
     left: 0;
 
-    padding: 110px 10px 20px 210px;
+    padding: 110px 10px 10px 210px;
 
     width: 100%;
     height: 100%;
 
     z-index: 60;
 }
+
+/*
+ *  GOING INTO CARDS
+ */
 
 /* Content top */
 div.card-top {

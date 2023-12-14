@@ -198,11 +198,11 @@ function activateTable(tableName)
             
             
             // Load row into view
-            row.scrollIntoView({
-                behavior: 'auto',
-                block: 'center',
-                inline: 'center'
-            });
+            //row.scrollIntoView({
+            //    behavior: 'auto',
+            //    block: 'center',
+            //    inline: 'center'
+            //});
             
             // Load view
             url = row.getAttribute("data-show")
